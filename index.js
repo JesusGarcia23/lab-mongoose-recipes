@@ -38,4 +38,15 @@ Recipe.updateOne({title: "Rigatoni alla Genovese"}, {duration: 100})
 //DELETE A SPECIFIC OBJECT BY ITS TITLE FROM DATABASE (MONGODB)
 Recipe.deleteOne({title: "Carrot Cake"})
 .then(console.log("The next Recipe was successfully deleted"))
-.catch(err => console.log("Something went wrong while deleting ", err))
+.catch(err => console.log("Something went wrong while deleting ", err));
+
+
+mongoose.connection.on("disconnected", function () {
+  console.log("Mongoose default connection is disconnected");
+ });
+ process.on("SIGINT", function () {
+  mongoose.connection.close(function () {
+    console.log("Mongoose default connection is disconnected due to application termination");
+    process.exit(0);
+  });
+ });
